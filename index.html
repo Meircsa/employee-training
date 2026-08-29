@@ -111,6 +111,11 @@ const sampleData = {
           course:"Safety Induction & Lifesaving",
           issue:"2026-02-09",
           expiry:"2028-02-08"
+        },
+        {
+          course:"First Aid",
+          issue:"2025-01-15",
+          expiry:"2027-01-14"
         }
       ]
   }
@@ -140,12 +145,4 @@ if(sampleData[employeeId]){
         tbody.innerHTML += `
         <tr class="${rowClass}">
             <td>${c.course}</td>
-            <td>${c.issue}</td>
-            <td>${c.expiry}</td>
-            <td>${status}</td>
-        </tr>`;
-    });
-
-}else{
-    document.body.innerHTML =
-    "<h2 style='
+            <td>${c.
