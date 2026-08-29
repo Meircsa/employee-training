@@ -1,317 +1,70 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Employee Training Information</title>
+async function loadEmployee() {
 
-<style>
+    try {
 
-body{
-    font-family: Arial, sans-serif;
-    background:#f4f6f9;
-    margin:0;
-    padding:30px;
-}
+        const response = await fetch(
+            `data/${employeeId}.json`
+        );
 
-.card{
-    background:white;
-    max-width:1200px;
-    margin:auto;
-    padding:30px;
-    border-radius:15px;
-    box-shadow:0 4px 12px rgba(0,0,0,.15);
-}
-
-.header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:20px;
-    border-bottom:2px solid #e5e5e5;
-    padding-bottom:15px;
-    margin-bottom:25px;
-}
-
-.logo{
-    width:180px;
-    height:80px;
-    object-fit:contain;
-}
-
-.title{
-    flex:1;
-    text-align:center;
-}
-
-.title h1{
-    margin:0;
-    color:#0B5FA5;
-    font-size:28px;
-    font-weight:700;
-}
-
-.info{
-    text-align:center;
-    margin:30px 0;
-}
-
-.info p{
-    font-size:24px;
-    margin:15px 0;
-}
-
-#empId,
-#empName,
-#company{
-    color:#0B5FA5;
-    font-weight:bold;
-}
-
-table{
-    width:100%;
-    border-collapse:collapse;
-    margin-top:20px;
-}
-
-th{
-    background:#0B5FA5;
-    color:white;
-    padding:14px;
-    font-size:18px;
-}
-
-td{
-    padding:14px;
-    border-bottom:1px solid #ddd;
-    text-align:center;
-    font-size:17px;
-}
-
-tr.valid td{
-    background:#e8f5e9;
-    color:#2e7d32;
-}
-
-tr.expired td{
-    background:#ffe5e5;
-    color:#c62828;
-}
-
-.notfound{
-    text-align:center;
-    padding:50px;
-    font-size:24px;
-    color:#c62828;
-}
-
-@media(max-width:768px){
-
-body{
-    padding:10px;
-}
-
-.card{
-    padding:15px;
-}
-
-.header{
-    flex-direction:column;
-}
-
-.logo{
-    width:120px;
-    height:auto;
-}
-
-.title h1{
-    font-size:22px;
-}
-
-.info p{
-    font-size:18px;
-}
-
-table{
-    font-size:14px;
-}
-
-th,
-td{
-    padding:8px;
-}
-
-}
-
-</style>
-</head>
-
-<body>
-
-<div class="card">
-
-<div class="header">
-
-<img
-src="https://i.postimg.cc/0rRf24wm/MEIRC-NEW.jpg"
-class="logo"
-alt="MEIRC">
-
-<div class="title">
-<h1>Employee Training Information</h1>
-</div>
-
-<img
-src="https://i.postimg.cc/P50q976c/MAADEN-LOGO-12.jpg"
-class="logo"
-alt="Company">
-
-</div>
-
-<div class="info">
-
-<p>
-<strong>ID:</strong>
-<span id="empId"></span>
-</p>
-
-<p>
-<strong>Name:</strong>
-<span id="empName"></span>
-</p>
-
-<p>
-<strong>Company:</strong>
-<span id="company"></span>
-</p>
-
-</div>
-
-<table>
-
-<thead>
-<tr>
-<th>Course</th>
-<th>Issue Date</th>
-<th>Expiry Date</th>
-<th>Status</th>
-</tr>
-</thead>
-
-<tbody id="courseTable"></tbody>
-
-</table>
-
-</div>
-
-<script>
-
-const employeeId =
-new URLSearchParams(window.location.search).get("id");
-
-const sampleData = {
-
-"2318928799":{
-
-    id:"2318928799",
-    name:"Shamek Odeh",
-    company:"Zahran",
-
-    courses:[
-
-        {
-            course:"Safety Induction & Lifesaving",
-            issue:"2026-02-09",
-            expiry:"2028-02-08"
-        },
-
-        {
-            course:"First Aid",
-            issue:"2025-01-15",
-            expiry:"2027-01-14"
-        },
-
-        {
-            course:"Working At Height",
-            issue:"2024-08-01",
-            expiry:"2025-02-01"
+        if (!response.ok) {
+            throw new Error("Employee not found");
         }
 
-    ]
-}
+        const emp = await response.json();
 
-};
+        document.getElementById("empId").textContent =
+        emp.id;
 
-function formatDate(dateString){
+        document.getElementById("empName").textContent =
+        emp.name;
 
-    return new Date(dateString)
-    .toLocaleDateString("en-US", {
-        year:"numeric",
-        month:"long",
-        day:"numeric"
-    });
+        document.getElementById("company").textContent =
+        emp.company;
 
-}
+        let rows = "";
 
-if(sampleData[employeeId]){
+        emp.courses.forEach(course => {
 
-    const emp = sampleData[employeeId];
+            const expiryDate =
+            new Date(course.expiry);
 
-    document.getElementById("empId").textContent =
-    emp.id;
+            const today =
+            new Date();
 
-    document.getElementById("empName").textContent =
-    emp.name;
+            let status = "✅ Valid";
+            let rowClass = "valid";
 
-    document.getElementById("company").textContent =
-    emp.company;
+            if (expiryDate < today) {
 
-    let rows = "";
+                status = "❌ Expired";
+                rowClass = "expired";
 
-    emp.courses.forEach(course=>{
+            }
 
-        const expiryDate =
-        new Date(course.expiry);
+            rows += `
+            <tr class="${rowClass}">
+                <td>${course.course}</td>
+                <td>${formatDate(course.issue)}</td>
+                <td>${formatDate(course.expiry)}</td>
+                <td>${status}</td>
+            </tr>
+            `;
 
-        const today =
-        new Date();
+        });
 
-        let status = "✅ Valid";
-        let rowClass = "valid";
+        document.getElementById("courseTable").innerHTML =
+        rows;
 
-        if(expiryDate < today){
+    }
+    catch(error){
 
-            status = "❌ Expired";
-            rowClass = "expired";
-
-        }
-
-        rows += `
-        <tr class="${rowClass}">
-            <td>${course.course}</td>
-            <td>${formatDate(course.issue)}</td>
-            <td>${formatDate(course.expiry)}</td>
-            <td>${status}</td>
-        </tr>
+        document.querySelector(".card").innerHTML = `
+        <div class="notfound">
+            ❌ Employee not found
+        </div>
         `;
-
-    });
-
-    document.getElementById("courseTable").innerHTML =
-    rows;
-
-}
-else{
-
-    document.querySelector(".card").innerHTML = `
-    <div class="notfound">
-        ❌ Employee not found
-    </div>
-    `;
+    }
 
 }
 
-</script>
-
-</body>
-</html>
+loadEmployee();
