@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -35,9 +34,10 @@ body{
 }
 
 .logo{
-    width:220px;
-    height:100px;
+    width:180px;
+    height:90px;
     object-fit:contain;
+    display:block;
 }
 
 .title{
@@ -138,7 +138,6 @@ tr.expired td{
         padding:8px;
         font-size:14px;
     }
-
 }
 
 </style>
@@ -150,22 +149,13 @@ tr.expired td{
 
     <div class="header">
 
-        <img
-          src="images/NEW Transparent.png"
-          class="logo"
-          alt=ng Information</h1>
-        </div>
-
+        <img src="images/NEW Transparent.png" class="logo" alt="MEIRC"
 
         <div class="title">
             <h1>Employee Training Information</h1>
         </div>
 
-        <img
-          src="images/MAADEN New Logo.jpg"
-          class="logo"
-          alt=ng Information</h1>
-        </div>
+        <img src="images/MAADEN New Logo.jpg" class="logo" alt="Maaden"
 
     </div>
 
@@ -234,8 +224,7 @@ async function loadEmployee(){
             throw new Error("Employee not found");
         }
 
-        const emp =
-        await response.json();
+        const emp = await response.json();
 
         document.getElementById("empId").textContent =
         emp.id;
@@ -287,7 +276,6 @@ async function loadEmployee(){
             ❌ Employee not found
         </div>
         `;
-
     }
 
 }
