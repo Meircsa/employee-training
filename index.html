@@ -29,13 +29,13 @@ body{
     align-items:center;
     gap:20px;
     border-bottom:2px solid #e5e5e5;
-    padding-bottom:15px;
-    margin-bottom:25px;
+    padding-bottom:20px;
+    margin-bottom:30px;
 }
 
 .logo{
     width:180px;
-    height:80px;
+    max-height:90px;
     object-fit:contain;
 }
 
@@ -47,7 +47,7 @@ body{
 .title h1{
     margin:0;
     color:#0B5FA5;
-    font-size:28px;
+    font-size:24px;
     font-weight:700;
 }
 
@@ -59,13 +59,13 @@ body{
 .info p{
     font-size:24px;
     margin:15px 0;
+    font-weight:bold;
 }
 
 #empId,
 #empName,
 #company{
     color:#0B5FA5;
-    font-weight:bold;
 }
 
 table{
@@ -100,46 +100,47 @@ tr.expired td{
 
 .notfound{
     text-align:center;
-    padding:50px;
+    padding:60px;
     font-size:24px;
     color:#c62828;
 }
 
 @media(max-width:768px){
 
-body{
-    padding:10px;
-}
+    body{
+        padding:10px;
+    }
 
-.card{
-    padding:15px;
-}
+    .card{
+        padding:15px;
+    }
 
-.header{
-    flex-direction:column;
-}
+    .header{
+        flex-direction:column;
+    }
 
-.logo{
-    width:120px;
-    height:auto;
-}
+    .logo{
+        width:120px;
+    }
 
-.title h1{
-    font-size:22px;
-}
+    .title h1{
+        font-size:20px;
+    }
 
-.info p{
-    font-size:18px;
-}
+    .info p{
+        font-size:18px;
+    }
 
-th,
-td{
-    padding:8px;
-}
+    th,
+    td{
+        padding:8px;
+        font-size:14px;
+    }
 
 }
 
 </style>
+
 </head>
 
 <body>
@@ -148,33 +149,30 @@ td{
 
 <div class="header">
 
-<img
-src="images/NEW Transparent.png"
-class="logo"
-alt="MEIRC">
+images/NEW Transparent.png
 
 <div class="title">
-    <h1/div>
+<h1>Employee Training Information</h1>
+</div>
 
-<img
-src="images/MAADEN New Logo.jpg"
-class="logo"
-alt="Client">
+images/MAADEN NEW Logo.png
+
+</div>
 
 <div class="info">
 
 <p>
-<strong>ID:</strong>
+ID:
 <span id="empId"></span>
 </p>
 
 <p>
-<strong>Name:</strong>
+Name:
 <span id="empName"></span>
 </p>
 
 <p>
-<strong>Company:</strong>
+Company:
 <span id="company"></span>
 </p>
 
