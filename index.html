@@ -1,16 +1,228 @@
-async function loadEmployee() {
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Employee Training Information</title>
 
-    try {
+<style>
 
-        const response = await fetch(
-            `data/${employeeId}.json`
-        );
+body{
+    font-family: Arial, sans-serif;
+    background:#f4f6f9;
+    margin:0;
+    padding:30px;
+}
 
-        if (!response.ok) {
+.card{
+    background:white;
+    max-width:1200px;
+    margin:auto;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 4px 12px rgba(0,0,0,.15);
+}
+
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+    border-bottom:2px solid #e5e5e5;
+    padding-bottom:15px;
+    margin-bottom:25px;
+}
+
+.logo{
+    width:180px;
+    height:80px;
+    object-fit:contain;
+}
+
+.title{
+    flex:1;
+    text-align:center;
+}
+
+.title h1{
+    margin:0;
+    color:#0B5FA5;
+    font-size:28px;
+    font-weight:700;
+}
+
+.info{
+    text-align:center;
+    margin:30px 0;
+}
+
+.info p{
+    font-size:24px;
+    margin:15px 0;
+}
+
+#empId,
+#empName,
+#company{
+    color:#0B5FA5;
+    font-weight:bold;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:20px;
+}
+
+th{
+    background:#0B5FA5;
+    color:white;
+    padding:14px;
+    font-size:18px;
+}
+
+td{
+    padding:14px;
+    border-bottom:1px solid #ddd;
+    text-align:center;
+    font-size:17px;
+}
+
+tr.valid td{
+    background:#e8f5e9;
+    color:#2e7d32;
+}
+
+tr.expired td{
+    background:#ffe5e5;
+    color:#c62828;
+}
+
+.notfound{
+    text-align:center;
+    padding:50px;
+    font-size:24px;
+    color:#c62828;
+}
+
+@media(max-width:768px){
+
+body{
+    padding:10px;
+}
+
+.card{
+    padding:15px;
+}
+
+.header{
+    flex-direction:column;
+}
+
+.logo{
+    width:120px;
+    height:auto;
+}
+
+.title h1{
+    font-size:22px;
+}
+
+.info p{
+    font-size:18px;
+}
+
+th,
+td{
+    padding:8px;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+<div class="header">
+
+images/meirc-logo.png
+
+<div class="title">
+<h1>Employee Training Information</h1>
+</div>
+
+images/client-logo.png
+
+</div>
+
+<div class="info">
+
+<p>
+<strong>ID:</strong>
+<span id="empId"></span>
+</p>
+
+<p>
+<strong>Name:</strong>
+<span id="empName"></span>
+</p>
+
+<p>
+<strong>Company:</strong>
+<span id="company"></span>
+</p>
+
+</div>
+
+<table>
+
+<thead>
+<tr>
+<th>Course</th>
+<th>Issue Date</th>
+<th>Expiry Date</th>
+<th>Status</th>
+</tr>
+</thead>
+
+<tbody id="courseTable"></tbody>
+
+</table>
+
+</div>
+
+<script>
+
+const employeeId =
+new URLSearchParams(window.location.search).get("id");
+
+function formatDate(dateString){
+
+    return new Date(dateString)
+    .toLocaleDateString("en-US",{
+        year:"numeric",
+        month:"long",
+        day:"numeric"
+    });
+
+}
+
+async function loadEmployee(){
+
+    try{
+
+        const response =
+        await fetch(`data/${employeeId}.json`);
+
+        if(!response.ok){
             throw new Error("Employee not found");
         }
 
-        const emp = await response.json();
+        const emp =
+        await response.json();
 
         document.getElementById("empId").textContent =
         emp.id;
@@ -23,7 +235,7 @@ async function loadEmployee() {
 
         let rows = "";
 
-        emp.courses.forEach(course => {
+        emp.courses.forEach(course=>{
 
             const expiryDate =
             new Date(course.expiry);
@@ -34,7 +246,7 @@ async function loadEmployee() {
             let status = "✅ Valid";
             let rowClass = "valid";
 
-            if (expiryDate < today) {
+            if(expiryDate < today){
 
                 status = "❌ Expired";
                 rowClass = "expired";
@@ -63,8 +275,14 @@ async function loadEmployee() {
             ❌ Employee not found
         </div>
         `;
+
     }
 
 }
 
 loadEmployee();
+
+</script>
+
+</body>
+</html>
