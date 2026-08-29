@@ -1,148 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Employee Training Information</title>
-
-<style>
-
-body{
-    font-family: Arial, sans-serif;
-    background:#f4f6f9;
-    margin:0;
-    padding:30px;
-}
-
-.card{
-    background:white;
-    max-width:1000px;
-    margin:auto;
-    padding:30px;
-    border-radius:12px;
-    box-shadow:0 4px 12px rgba(0,0,0,.15);
-}
-
-.header{
-    text-align:center;
-    margin-bottom:25px;
-}
-
-.header h1{
-    color:#0B5FA5;
-}
-
-.info{
-    margin-bottom:20px;
-}
-
-.info p{
-    font-size:18px;
-}
-
-table{
-    width:100%;
-    border-collapse:collapse;
-}
-
-th{
-    background:#0B5FA5;
-    color:white;
-    padding:12px;
-}
-
-td{
-    padding:10px;
-    border-bottom:1px solid #ddd;
-    text-align:center;
-}
-
-.valid{
-    background:#e8f5e9;
-    color:#2e7d32;
-}
-
-.expired{
-    background:#ffe5e5;
-    color:#c62828;
-}
-
-</style>
+<title>Test</title>
 </head>
-
 <body>
 
-<div class="card">
-
-    <div class="header">
-        <h1>Employee Training Information</h1>
-    </div>
-
-    <div class="info">
-        <p><strong>ID:</strong> <span id="empId"></span></p>
-        <p><strong>Name:</strong> <span id="empName"></span></p>
-        <p><strong>Company:</strong> <span id="company"></span></p>
-    </div>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Course</th>
-                <th>Issue Date</th>
-                <th>Expiry Date</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-
-        <tbody id="courseTable"></tbody>
-    </table>
-
-</div>
+<h1 style="color:red">TEST PAGE WORKING</h1>
 
 <script>
+document.write("<h2>Employee ID = " + new URLSearchParams(window.location.search).get("id") + "</h2>");
+</script>
 
-const sampleData = {
-  "2318928799":{
-      id:"2318928799",
-      name:"Shamek Odeh",
-      company:"Zahran",
-      courses:[
-        {
-          course:"Safety Induction & Lifesaving",
-          issue:"2026-02-09",
-          expiry:"2028-02-08"
-        },
-        {
-          course:"First Aid",
-          issue:"2025-01-15",
-          expiry:"2027-01-14"
-        }
-      ]
-  }
-};
-
-const urlParams = new URLSearchParams(window.location.search);
-const employeeId = urlParams.get("id");
-
-if(sampleData[employeeId]){
-
-    const emp = sampleData[employeeId];
-
-    document.getElementById("empId").textContent = emp.id;
-    document.getElementById("empName").textContent = emp.name;
-    document.getElementById("company").textContent = emp.company;
-
-    const tbody = document.getElementById("courseTable");
-
-    emp.courses.forEach(c=>{
-
-        const expiry = new Date(c.expiry);
-        const today = new Date();
-
-        const status = expiry >= today ? "Valid" : "Expired";
-        const rowClass = expiry >= today ? "valid" : "expired";
-
-        tbody.innerHTML += `
-        <tr class="${rowClass}">
-            <td>${c.course}</td>
-            <td>${c.
+</body>
+</html>
