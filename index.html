@@ -34,8 +34,8 @@ body{
 }
 
 .logo{
-    width:180px;
-    max-height:90px;
+    width:220px;
+    max-height:100px;
     object-fit:contain;
 }
 
@@ -83,8 +83,8 @@ th{
 
 td{
     padding:14px;
-    border-bottom:1px solid #ddd;
     text-align:center;
+    border-bottom:1px solid #ddd;
     font-size:17px;
 }
 
@@ -120,7 +120,7 @@ tr.expired td{
     }
 
     .logo{
-        width:120px;
+        width:140px;
     }
 
     .title h1{
@@ -136,11 +136,9 @@ tr.expired td{
         padding:8px;
         font-size:14px;
     }
-
 }
 
 </style>
-
 </head>
 
 <body>
@@ -149,10 +147,10 @@ tr.expired td{
 
 <div class="header">
 
-"src="images/NEW Transparent.png
+images/NEW Transparent.png
 
 <div class="title">
-<h1>Employee Training Information</h1>
+    <h1>Employee Training Information</h1>
 </div>
 
 images/MAADEN NEW Logo.png
@@ -182,10 +180,10 @@ Company:
 
 <thead>
 <tr>
-<th>Course</th>
-<th>Issue Date</th>
-<th>Expiry Date</th>
-<th>Status</th>
+    <th>Course</th>
+    <th>Issue Date</th>
+    <th>Expiry Date</th>
+    <th>Status</th>
 </tr>
 </thead>
 
@@ -202,13 +200,14 @@ new URLSearchParams(window.location.search).get("id");
 
 function formatDate(dateString){
 
-    return new Date(dateString)
-    .toLocaleDateString("en-US",{
-        year:"numeric",
-        month:"long",
-        day:"numeric"
-    });
-
+    return new Date(dateString).toLocaleDateString(
+        "en-US",
+        {
+            year:"numeric",
+            month:"long",
+            day:"numeric"
+        }
+    );
 }
 
 async function loadEmployee(){
@@ -236,7 +235,7 @@ async function loadEmployee(){
 
         let rows = "";
 
-        emp.courses.forEach(course=>{
+        emp.courses.forEach(course => {
 
             const expiryDate =
             new Date(course.expiry);
@@ -244,14 +243,13 @@ async function loadEmployee(){
             const today =
             new Date();
 
-            let status = "✅ Valid";
             let rowClass = "valid";
+            let status = "✅ Valid";
 
             if(expiryDate < today){
 
-                status = "❌ Expired";
                 rowClass = "expired";
-
+                status = "❌ Expired";
             }
 
             rows += `
@@ -262,13 +260,12 @@ async function loadEmployee(){
                 <td>${status}</td>
             </tr>
             `;
-
         });
 
         document.getElementById("courseTable").innerHTML =
         rows;
-
     }
+
     catch(error){
 
         document.querySelector(".card").innerHTML = `
@@ -276,9 +273,7 @@ async function loadEmployee(){
             ❌ Employee not found
         </div>
         `;
-
     }
-
 }
 
 loadEmployee();
