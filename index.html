@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -137,61 +138,61 @@ tr.expired td{
         padding:8px;
         font-size:14px;
     }
+
 }
 
 </style>
-
 </head>
 
 <body>
 
 <div class="card">
 
-<div class="header">
+    <div class="header">
 
-images/NEW Transparent.png
+        images/NEW Transparent.png
 
-<div class="title">
-    <h1>Employee Training Information</h1>
-</div>
+        <div class="title">
+            <h1>Employee Training Information</h1>
+        </div>
 
-images/MAADEN New Logo.png
+        images/MAADEN NEW Logo.jpg
 
-</div>
+    </div>
 
-<div class="info">
+    <div class="info">
 
-<p>
-ID:
-<span id="empId"></span>
-</p>
+        <p>
+            ID:
+            <span id="empId"></span>
+        </p>
 
-<p>
-Name:
-<span id="empName"></span>
-</p>
+        <p>
+            Name:
+            <span id="empName"></span>
+        </p>
 
-<p>
-Company:
-<span id="company"></span>
-</p>
+        <p>
+            Company:
+            <span id="company"></span>
+        </p>
 
-</div>
+    </div>
 
-<table>
+    <table>
 
-<thead>
-<tr>
-    <th>Course</th>
-    <th>Issue Date</th>
-    <th>Expiry Date</th>
-    <th>Status</th>
-</tr>
-</thead>
+        <thead>
+            <tr>
+                <th>Course</th>
+                <th>Issue Date</th>
+                <th>Expiry Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
 
-<tbody id="courseTable"></tbody>
+        <tbody id="courseTable"></tbody>
 
-</table>
+    </table>
 
 </div>
 
@@ -210,6 +211,7 @@ function formatDate(dateString){
             day:"numeric"
         }
     );
+
 }
 
 async function loadEmployee(){
@@ -252,6 +254,7 @@ async function loadEmployee(){
 
                 rowClass = "expired";
                 status = "❌ Expired";
+
             }
 
             rows += `
@@ -266,8 +269,8 @@ async function loadEmployee(){
 
         document.getElementById("courseTable").innerHTML =
         rows;
-    }
 
+    }
     catch(error){
 
         document.querySelector(".card").innerHTML = `
@@ -275,7 +278,9 @@ async function loadEmployee(){
             ❌ Employee not found
         </div>
         `;
+
     }
+
 }
 
 loadEmployee();
