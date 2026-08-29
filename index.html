@@ -16,55 +16,116 @@ body{
 
 .card{
     background:white;
-    max-width:1000px;
+    max-width:1100px;
     margin:auto;
     padding:30px;
-    border-radius:12px;
+    border-radius:15px;
     box-shadow:0 4px 12px rgba(0,0,0,.15);
 }
 
 .header{
-    text-align:center;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+    border-bottom:2px solid #e5e5e5;
+    padding-bottom:15px;
     margin-bottom:25px;
 }
 
-.header h1{
+.logo{
+    width:140px;
+    height:70px;
+    object-fit:contain;
+}
+
+.title{
+    flex:1;
+    text-align:center;
+}
+
+.title h1{
+    margin:0;
     color:#0B5FA5;
+    font-size:40px;
 }
 
 .info{
-    margin-bottom:20px;
+    margin:20px 0;
 }
 
 .info p{
-    font-size:18px;
+    font-size:20px;
+    margin:12px 0;
 }
 
 table{
     width:100%;
     border-collapse:collapse;
+    margin-top:20px;
 }
 
 th{
     background:#0B5FA5;
     color:white;
-    padding:12px;
+    padding:14px;
+    font-size:18px;
 }
 
 td{
-    padding:10px;
+    padding:12px;
     border-bottom:1px solid #ddd;
     text-align:center;
+    font-size:17px;
 }
 
-.valid{
+tr.valid td{
     background:#e8f5e9;
     color:#2e7d32;
 }
 
-.expired{
+tr.expired td{
     background:#ffe5e5;
     color:#c62828;
+}
+
+.notfound{
+    text-align:center;
+    padding:50px;
+    font-size:24px;
+}
+
+@media(max-width:768px){
+
+body{
+    padding:10px;
+}
+
+.card{
+    padding:15px;
+}
+
+.header{
+    flex-direction:column;
+}
+
+.logo{
+    width:110px;
+    height:auto;
+}
+
+.title h1{
+    font-size:28px;
+}
+
+table{
+    font-size:14px;
+}
+
+th,td{
+    padding:8px;
+}
+
 }
 
 </style>
@@ -74,90 +135,140 @@ td{
 
 <div class="card">
 
-    <div class="header">
-        <h1>Employee Training Information</h1>
-    </div>
+<div class="header">
 
-    <div class="info">
-        <p><strong>ID:</strong> <span id="empId"></span></p>
-        <p><strong>Name:</strong> <span id="empName"></span></p>
-        <p><strong>Company:</strong> <span id="company"></span></p>
-    </div>
+<img
+src="https://i.postimg.cc/0rRf24wm/MEIRC-NEW.jpg"
+class="logo"
+alt="MEIRC">
 
-    <table>
-        <thead>
-            <tr>
-                <th>Course</th>
-                <th>Issue Date</th>
-                <th>Expiry Date</th>
-                <th>Status</th>
-            </tr>
-        </thead>
+<div class="title">
+<h1>Employee Training Information</h1>
+</div>
 
-        <tbody id="courseTable"></tbody>
-    </table>
+<img
+src="https://i.postimg.cc/P50q976c/MAADEN-LOGO-12.jpg"
+class="logo"
+alt="Company">
+
+</div>
+
+<div class="info">
+<p><strong>ID:</strong> <span id="empId"></span></p>
+<p><strong>Name:</strong> <span id="empName"></span></p>
+<p><strong>Company:</strong> <span id="company"></span></p>
+</div>
+
+<table>
+
+<thead>
+<tr>
+<th>Course</th>
+<th>Issue Date</th>
+<th>Expiry Date</th>
+<th>Status</th>
+</tr>
+</thead>
+
+<tbody id="courseTable"></tbody>
+
+</table>
 
 </div>
 
 <script>
 
-const sampleData = {
-  "2318928799":{
-      id:"2318928799",
-      name:"Shamek Odeh",
-      company:"Zahran",
-      courses:[
-        {
-          course:"Safety Induction & Lifesaving",
-          issue:"2026-02-09",
-          expiry:"2028-02-08"
-        },
-        {
-          course:"First Aid",
-          issue:"2025-01-15",
-          expiry:"2027-01-14"
-        }
-      ]
-  }
-};
+const employeeId =
+new URLSearchParams(window.location.search).get("id");
 
-const urlParams = new URLSearchParams(window.location.search);
-const employeeId = urlParams.get("id");
+const sampleData = {
+
+    "2318928799":{
+
+        id:"2318928799",
+        name:"Shamek Odeh",
+        company:"Zahran",
+
+        courses:[
+
+            {
+                course:"Safety Induction & Lifesaving",
+                issue:"2026-02-09",
+                expiry:"2028-02-08"
+            },
+
+            {
+                course:"First Aid",
+                issue:"2025-01-15",
+                expiry:"2027-01-14"
+            },
+
+            {
+                course:"Working At Height",
+                issue:"2024-08-01",
+                expiry:"2025-02-01"
+            }
+
+        ]
+    }
+
+};
 
 if(sampleData[employeeId]){
 
     const emp = sampleData[employeeId];
 
-    document.getElementById("empId").textContent = emp.id;
-    document.getElementById("empName").textContent = emp.name;
-    document.getElementById("company").textContent = emp.company;
+    document.getElementById("empId").textContent =
+    emp.id;
 
-    const tbody = document.getElementById("courseTable");
+    document.getElementById("empName").textContent =
+    emp.name;
 
-    emp.courses.forEach(c=>{
+    document.getElementById("company").textContent =
+    emp.company;
 
-        const expiry = new Date(c.expiry);
-        const today = new Date();
+    let rows = "";
 
-        const status = expiry >= today ? "Valid" : "Expired";
-        const rowClass = expiry >= today ? "valid" : "expired";
+    emp.courses.forEach(course=>{
 
-        tbody.innerHTML += `
+        const expiryDate =
+        new Date(course.expiry);
+
+        const today =
+        new Date();
+
+        let status = "✅ Valid";
+        let rowClass = "valid";
+
+        if(expiryDate < today){
+
+            status = "❌ Expired";
+            rowClass = "expired";
+
+        }
+
+        rows += `
         <tr class="${rowClass}">
-            <td>${c.course}</td>
-            <td>${c.issue}</td>
-            <td>${c.expiry}</td>
+            <td>${course.course}</td>
+            <td>${course.issue}</td>
+            <td>${course.expiry}</td>
             <td>${status}</td>
-        </tr>`;
+        </tr>
+        `;
+
     });
 
-}else{
+    document.getElementById("courseTable").innerHTML =
+    rows;
 
-    document.body.innerHTML = `
-    <div style="text-align:center;padding:50px;font-family:Arial">
-        <h2>Employee not found</h2>
-        <p>Please check the employee ID.</p>
-    </div>`;
+}
+else{
+
+    document.querySelector(".card").innerHTML = `
+    <div class="notfound">
+        ❌ Employee not found
+    </div>
+    `;
 
 }
 
