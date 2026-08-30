@@ -688,7 +688,7 @@ async function loadEmployee(){
 
         const response =
             await fetch(
-                `data/${employeeId}.json`
+                `"data/employees.json"`
             );
 
 
@@ -705,9 +705,13 @@ async function loadEmployee(){
 
         /* READ JSON */
 
-        const emp =
-            await response.json();
+        const employees = await response.json();
 
+        const emp = employees[employeeId];
+
+        if (!emp) {
+        throw new Error("Employee not found");
+}
 
         /* =====================================
            CREATE COURSE ROWS
