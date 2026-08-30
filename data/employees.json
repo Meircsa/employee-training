@@ -21,19 +21,5 @@
         "expiry": "2027-10-12"
       }
     ]
-  },
-
-  "2485724625": {
-    "id": "2485724625",
-    "name": "Hossain Molla",
-    "company": "Maaden Gold",
-    "logo": "MAADEN New Logo.jpg",
-    "courses": [
-      {
-        "course": "Forklift",
-        "issue": "2025-10-14",
-        "expiry": "2028-10-13"
-      }
-    ]
   }
 }
